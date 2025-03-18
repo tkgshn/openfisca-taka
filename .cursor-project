@@ -1,0 +1,194 @@
+{
+    "project": {
+        "name": "OpenFisca Taka",
+        "description": "日本の社会保障制度をモデル化するためのOpenFiscaプロジェクト",
+        "version": "1.0.0",
+        "type": "social-security-system",
+        "language": "python",
+        "framework": "openfisca"
+    },
+    "context": {
+        "purpose": "社会保障制度のシミュレーションと分析",
+        "domain": "public-policy",
+        "target_users": [
+            "政策立案者",
+            "研究者",
+            "システム開発者"
+        ],
+        "key_features": [
+            "基本所得制度",
+            "住宅手当",
+            "年金制度",
+            "育児手当",
+            "子育て支援手当"
+        ]
+    },
+    "code_style": {
+        "python": {
+            "formatter": "black",
+            "line_length": 88,
+            "docstring": {
+                "style": "google",
+                "language": "ja",
+                "required_sections": [
+                    "概要",
+                    "パラメータ",
+                    "戻り値",
+                    "例",
+                    "注意事項"
+                ]
+            },
+            "imports": {
+                "order": [
+                    "standard_library",
+                    "third_party",
+                    "openfisca_core",
+                    "local"
+                ],
+                "group_by_type": true
+            },
+            "type_hints": {
+                "required": true,
+                "check_with": "mypy"
+            }
+        }
+    },
+    "architecture": {
+        "directory_structure": {
+            "parameters": {
+                "path": "openfisca_taka/parameters",
+                "format": "yaml",
+                "required_fields": [
+                    "description",
+                    "metadata",
+                    "values"
+                ]
+            },
+            "variables": {
+                "path": "openfisca_taka/variables",
+                "format": "python",
+                "required_fields": [
+                    "value_type",
+                    "entity",
+                    "definition_period",
+                    "label"
+                ]
+            },
+            "tests": {
+                "path": "openfisca_taka/tests",
+                "format": "yaml",
+                "required_fields": [
+                    "name",
+                    "period",
+                    "input",
+                    "output"
+                ]
+            }
+        },
+        "components": {
+            "entities": [
+                "Person",
+                "Household"
+            ],
+            "periods": [
+                "MONTH",
+                "YEAR"
+            ],
+            "reforms": "openfisca_taka/reforms"
+        }
+    },
+    "testing": {
+        "framework": "pytest",
+        "coverage": {
+            "minimum": 80,
+            "include": [
+                "variables",
+                "parameters"
+            ],
+            "exclude": [
+                "tests",
+                "setup.py"
+            ]
+        },
+        "requirements": {
+            "yaml_tests": true,
+            "unit_tests": true,
+            "integration_tests": true
+        }
+    },
+    "api": {
+        "framework": "openfisca-web-api",
+        "documentation": {
+            "format": "openapi",
+            "ui": "swagger",
+            "port": 8081
+        },
+        "endpoints": {
+            "calculate": "/calculate",
+            "spec": "/spec",
+            "trace": "/trace"
+        }
+    },
+    "dependencies": {
+        "python": ">=3.11",
+        "core": {
+            "openfisca-core": ">=43.3.5",
+            "pytest": "latest"
+        },
+        "development": {
+            "black": "latest",
+            "mypy": "latest",
+            "ruff": "latest"
+        }
+    },
+    "ai_assistance": {
+        "focus_areas": [
+            "制度のパラメータ設定",
+            "計算ロジックの実装",
+            "テストケースの作成",
+            "ドキュメント生成"
+        ],
+        "code_generation": {
+            "templates": {
+                "variable": {
+                    "path": "openfisca_taka/variables/template.py",
+                    "required_sections": [
+                        "imports",
+                        "class_definition",
+                        "metadata",
+                        "formula"
+                    ]
+                },
+                "parameter": {
+                    "path": "openfisca_taka/parameters/template.yaml",
+                    "required_sections": [
+                        "description",
+                        "metadata",
+                        "values"
+                    ]
+                },
+                "test": {
+                    "path": "openfisca_taka/tests/template.yaml",
+                    "required_sections": [
+                        "test_case",
+                        "period",
+                        "input",
+                        "output"
+                    ]
+                }
+            },
+            "conventions": {
+                "naming": {
+                    "variables": "snake_case",
+                    "parameters": "snake_case",
+                    "tests": "descriptive_with_underscores"
+                },
+                "documentation": {
+                    "language": "ja",
+                    "include_examples": true,
+                    "include_references": true
+                }
+            }
+        }
+    }
+}
