@@ -147,3 +147,33 @@ class household_income(Variable):
         """A household's income."""
         salaries = household.members("salary", period)
         return household.sum(salaries)
+
+
+class child_support_allowance(Variable):
+    value_type = float
+    entity = Household
+    definition_period = MONTH
+    label = "Child support allowance for households with children"
+    documentation = """
+    Child support allowance to help families with children.
+    The amount depends on the number of children in the household.
+    """
+    reference = "https://law.gov.example/child_support_allowance"
+
+    def formula_2025_03(household, period, parameters):
+        """Child support allowance introduced in March 2025.
+
+        The allowance is provided to households with children under 18 years old.
+        The amount depends on the number of children.
+        """
+        # Count the number of children in the household
+        nb_children = household.sum(
+            household.members("age", period) < parameters(period).general.age_of_majority
+        )
+
+        # Calculate the allowance based on the number of children
+        base_amount = parameters(period).benefits.child_support_allowance.base_amount
+        per_child_amount = parameters(period).benefits.child_support_allowance.per_child_amount
+
+        # The allowance is the base amount plus an additional amount per child
+        return (nb_children > 0) * (base_amount + nb_children * per_child_amount)

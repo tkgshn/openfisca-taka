@@ -1,5 +1,78 @@
 # OpenFisca Taka
 
+このリポジトリは、OpenFisca を使用して日本の社会保障制度をモデル化するためのプロジェクトです。
+
+## 概要
+
+OpenFisca Taka は、以下の制度をモデル化しています：
+
+- 基本所得（Basic Income）
+- 住宅手当（Housing Allowance）
+- 年金（Pension）
+- 育児手当（Parenting Allowance）
+- 子育て支援手当（Child Support Allowance）
+
+## インストール方法
+
+1. Python の仮想環境を作成し、有効化します：
+
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Unix系の場合
+# または
+.venv\Scripts\activate  # Windowsの場合
+```
+
+2. 依存パッケージをインストールします：
+
+```bash
+pip install -e .
+```
+
+## 使用方法
+
+### API サーバーの起動
+
+1. OpenFisca API サーバーを起動します（デフォルトポート：8000）：
+
+```bash
+openfisca serve --country-package openfisca_taka --port 8000
+```
+
+2. Swagger UI サーバーを起動します（ポート：8081）：
+
+```bash
+cd swagger-ui && python server.py
+```
+
+### API エンドポイント
+
+- Web API: http://localhost:8000/
+- OpenAPI 仕様: http://localhost:8000/spec
+- Swagger UI: http://localhost:8081/
+
+### テストの実行
+
+テストを実行するには以下のコマンドを使用します：
+
+```bash
+openfisca test openfisca_taka/tests
+```
+
+## 実装されている制度
+
+### 子育て支援手当（Child Support Allowance）
+
+2025 年 3 月から導入される子育て支援手当は、以下の特徴を持ちます：
+
+- 基本額：100 ユーロ
+- 子供 1 人あたりの追加額：50 ユーロ
+- 18 歳未満の子供が対象
+- 子供の数に応じて手当額が増加
+
+## ライセンス
+
+このプロジェクトはオープンソースソフトウェアとして提供されています。
 
 The country whose law is modelled here has a very simple tax and benefit
 system.
@@ -15,7 +88,7 @@ within the `openfisca_taka` folder.
 
 - The rates are in the `parameters` folder.
 - The formulas are in the `variables` folder.
-- This country package comes also with *reforms* in the `reforms` folder. This
+- This country package comes also with _reforms_ in the `reforms` folder. This
   is optional: your country may exist without defining any reform.
   - In this country, there is
     [a reform project](./openfisca_taka/reforms/modify_social_security_taxation.py)
@@ -84,7 +157,7 @@ To create a virtual environment, launch a terminal on your computer, `cd` into
 your directory and follow these instructions:
 
 ```sh
-python3 -m venv .venv # create a new virtual environment in the “.venv” folder, which will contain all dependencies
+python3 -m venv .venv # create a new virtual environment in the ".venv" folder, which will contain all dependencies
 source .venv/bin/activate # activate the venv
 ```
 

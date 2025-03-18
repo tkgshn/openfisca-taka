@@ -1,0 +1,111 @@
+{
+    "name": "OpenFisca Taka",
+    "version": "1.0.0",
+    "description": "日本の社会保障制度をモデル化するためのOpenFiscaプロジェクト",
+    "language": "python",
+    "framework": "openfisca",
+    "maintainers": [
+        "tkgshn"
+    ],
+    "rules": {
+        "code_style": {
+            "python": {
+                "max_line_length": 88,
+                "use_type_hints": true,
+                "docstring_style": "google",
+                "imports": {
+                    "order": [
+                        "standard_library",
+                        "third_party",
+                        "first_party",
+                        "local"
+                    ],
+                    "group_by_package": true
+                }
+            }
+        },
+        "documentation": {
+            "required_sections": [
+                "概要",
+                "パラメータ",
+                "戻り値",
+                "例",
+                "注意事項"
+            ],
+            "language": "ja",
+            "include_types": true
+        },
+        "testing": {
+            "required": true,
+            "coverage": {
+                "minimum": 80,
+                "include": [
+                    "variables",
+                    "parameters"
+                ],
+                "exclude": [
+                    "tests"
+                ]
+            },
+            "frameworks": [
+                "pytest"
+            ]
+        },
+        "variables": {
+            "naming": {
+                "style": "snake_case",
+                "prefix": "",
+                "suffix": ""
+            },
+            "documentation": {
+                "required": true,
+                "format": "yaml"
+            }
+        },
+        "parameters": {
+            "format": "yaml",
+            "required_fields": [
+                "description",
+                "metadata",
+                "values"
+            ],
+            "metadata_fields": [
+                "reference",
+                "unit"
+            ]
+        },
+        "api": {
+            "versioning": true,
+            "documentation": {
+                "format": "openapi",
+                "ui": "swagger"
+            },
+            "cors": {
+                "enabled": true,
+                "origins": [
+                    "http://localhost:8081"
+                ]
+            }
+        }
+    },
+    "tools": {
+        "recommended": {
+            "linting": [
+                "ruff"
+            ],
+            "formatting": [
+                "black"
+            ],
+            "type_checking": [
+                "mypy"
+            ],
+            "testing": [
+                "pytest"
+            ]
+        }
+    },
+    "dependencies": {
+        "python": ">=3.11",
+        "openfisca-core": ">=43.3.5"
+    }
+}

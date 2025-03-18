@@ -1,0 +1,75 @@
+- name: Child support allowance - No children
+  period: 2025-04
+  input:
+    persons:
+      parent1:
+        age: 30
+      parent2:
+        age: 28
+    households:
+      household1:
+        adults: [parent1, parent2]
+        children: []
+  output:
+    households:
+      household1:
+        child_support_allowance: 0
+
+- name: Child support allowance - One child
+  period: 2025-04
+  input:
+    persons:
+      parent1:
+        age: 30
+      parent2:
+        age: 28
+      child1:
+        age: 10
+    households:
+      household1:
+        adults: [parent1, parent2]
+        children: [child1]
+  output:
+    households:
+      household1:
+        child_support_allowance: 150 # 100 (base) + 50 (1 child)
+
+- name: Child support allowance - Two children
+  period: 2025-04
+  input:
+    persons:
+      parent1:
+        age: 30
+      parent2:
+        age: 28
+      child1:
+        age: 10
+      child2:
+        age: 5
+    households:
+      household1:
+        adults: [parent1, parent2]
+        children: [child1, child2]
+  output:
+    households:
+      household1:
+        child_support_allowance: 200 # 100 (base) + 50*2 (2 children)
+
+- name: Child support allowance - Adult children (over 18)
+  period: 2025-04
+  input:
+    persons:
+      parent1:
+        age: 50
+      parent2:
+        age: 48
+      adult_child:
+        age: 20 # Over 18
+    households:
+      household1:
+        adults: [parent1, parent2, adult_child]
+        children: []
+  output:
+    households:
+      household1:
+        child_support_allowance: 0 # No children under 18

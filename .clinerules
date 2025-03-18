@@ -1,0 +1,103 @@
+version: "1.0"
+name: "OpenFisca Taka"
+description: "日本の社会保障制度をモデル化するためのOpenFiscaプロジェクト"
+
+rules:
+  - name: child_support_allowance
+    description: "子育て支援手当の計算ルール"
+    type: "benefit_calculation"
+    version: "2025-03"
+    metadata:
+      category: "social_benefits"
+      target: "families_with_children"
+      authority: "government"
+      reference: "https://law.gov.example/child-support-allowance"
+      effective_date: "2025-03-01"
+      review_date: "2026-03-01"
+
+    eligibility:
+      conditions:
+        - field: "has_children_under_18"
+          operator: "equals"
+          value: true
+          description: "18歳未満の子供がいること"
+
+    parameters:
+      base_amount:
+        type: "currency"
+        value: 100
+        unit: "EUR"
+        description: "基本支給額"
+        validation:
+          min: 0
+          max: 1000
+
+      per_child_amount:
+        type: "currency"
+        value: 50
+        unit: "EUR"
+        description: "子供1人あたりの追加支給額"
+        validation:
+          min: 0
+          max: 500
+
+    calculation:
+      formula: "base_amount + (number_of_children * per_child_amount)"
+      variables:
+        number_of_children:
+          type: "integer"
+          description: "18歳未満の子供の数"
+          validation:
+            min: 0
+            max: 10
+
+    validation:
+      test_cases:
+        - name: "子供なし"
+          description: "子供がいない場合は支給なし"
+          input:
+            has_children_under_18: false
+            number_of_children: 0
+          expected:
+            amount: 0
+
+        - name: "子供1人"
+          description: "子供1人の場合の支給額"
+          input:
+            has_children_under_18: true
+            number_of_children: 1
+          expected:
+            amount: 150
+
+        - name: "子供2人"
+          description: "子供2人の場合の支給額"
+          input:
+            has_children_under_18: true
+            number_of_children: 2
+          expected:
+            amount: 200
+
+    documentation:
+      implementation_notes: |
+        - OpenFiscaのパラメータとして実装
+        - 毎年の見直しが必要
+        - 子供の年齢は誕生日基準で計算
+      examples: |
+        - 子供なし世帯: 0円
+        - 子供1人世帯: 150ユーロ
+        - 子供2人世帯: 200ユーロ
+      warnings: |
+        - 18歳の誕生日の月から支給対象外
+        - 外国籍の子供も対象
+
+tools:
+  recommended:
+    - name: "openfisca-core"
+      version: ">=43.3.5"
+      purpose: "社会保障制度のモデリング"
+    - name: "pytest"
+      version: "latest"
+      purpose: "テスト実行"
+    - name: "yamllint"
+      version: "latest"
+      purpose: "YAMLファイルの検証"

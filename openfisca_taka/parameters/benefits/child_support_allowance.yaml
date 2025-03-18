@@ -1,0 +1,25 @@
+description: Child support allowance parameters
+metadata:
+  reference: https://law.gov.example/child-support-allowance
+
+base_amount:
+  description: Base amount of child support allowance for households with children
+  metadata:
+    reference: https://law.gov.example/child-support-allowance/base-amount
+    unit: currency-EUR
+  values:
+    2025-03-01:
+      value: 100.0
+      metadata:
+        reference: https://law.gov.example/child-support-allowance/base-amount/2025-03
+
+per_child_amount:
+  description: Additional amount per child for the child support allowance
+  metadata:
+    reference: https://law.gov.example/child-support-allowance/per-child-amount
+    unit: currency-EUR
+  values:
+    2025-03-01:
+      value: 50.0
+      metadata:
+        reference: https://law.gov.example/child-support-allowance/per-child-amount/2025-03
