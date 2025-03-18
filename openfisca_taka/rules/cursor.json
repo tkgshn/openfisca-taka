@@ -1,0 +1,75 @@
+{
+    "rules": {
+        "child_support_allowance": {
+            "description": "子育て支援手当の計算ルール",
+            "version": "1.0.0",
+            "effective_date": "2025-03-01",
+            "parameters": {
+                "base_amount": {
+                    "type": "number",
+                    "value": 100,
+                    "unit": "EUR",
+                    "description": "基本支給額"
+                },
+                "per_child_amount": {
+                    "type": "number",
+                    "value": 50,
+                    "unit": "EUR",
+                    "description": "子供1人あたりの追加支給額"
+                }
+            },
+            "eligibility": {
+                "conditions": [
+                    {
+                        "field": "has_children_under_18",
+                        "operator": "equals",
+                        "value": true
+                    }
+                ]
+            },
+            "calculation": {
+                "formula": "base_amount + (number_of_children * per_child_amount)",
+                "variables": {
+                    "number_of_children": {
+                        "type": "integer",
+                        "description": "18歳未満の子供の数"
+                    }
+                }
+            },
+            "validation": {
+                "test_cases": [
+                    {
+                        "name": "子供なし",
+                        "input": {
+                            "has_children_under_18": false,
+                            "number_of_children": 0
+                        },
+                        "expected": {
+                            "result": 0
+                        }
+                    },
+                    {
+                        "name": "子供1人",
+                        "input": {
+                            "has_children_under_18": true,
+                            "number_of_children": 1
+                        },
+                        "expected": {
+                            "result": 150
+                        }
+                    },
+                    {
+                        "name": "子供2人",
+                        "input": {
+                            "has_children_under_18": true,
+                            "number_of_children": 2
+                        },
+                        "expected": {
+                            "result": 200
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,40 @@
+# CLINE Rules for OpenFisca Taka
+# 子育て支援手当の計算ルール
+
+rules:
+  - name: child_support_allowance
+    description: 子育て支援手当の計算
+    conditions:
+      - has_children_under_18: true
+    actions:
+      - calculate:
+          base_amount: 100
+          per_child_amount: 50
+          total: base_amount + (number_of_children * per_child_amount)
+    metadata:
+      effective_date: "2025-03-01"
+      reference: "https://law.gov.example/child-support-allowance"
+
+validation:
+  - rule: child_support_allowance
+    test_cases:
+      - name: "子供なし"
+        input:
+          has_children_under_18: false
+          number_of_children: 0
+        expected:
+          total: 0
+
+      - name: "子供1人"
+        input:
+          has_children_under_18: true
+          number_of_children: 1
+        expected:
+          total: 150
+
+      - name: "子供2人"
+        input:
+          has_children_under_18: true
+          number_of_children: 2
+        expected:
+          total: 200
